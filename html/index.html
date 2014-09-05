@@ -59,7 +59,7 @@ function search() {
 	if (result) {
 		searchByVideo(result);
 	} else {
-		searchByChannel(channelResult[1]);
+		searchByChannel(channelResult[1].toLowerCase());
 	}
 }
 
