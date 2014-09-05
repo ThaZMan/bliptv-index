@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+<head><title>Archive Team Twitch.tv video file archive search</title>
+
+<body>
+<noscript>This search feature requires JavaScript. Sorry!</noscript>
+
+<p>Welcome to the Archive Team Twitch.tv video file archive search</p>
+<form onsubmit="return false;">
+<p>
+
+Enter the URL of the video page or a channel please: </p>
+<input id="search_box" type="url"
+	value="http://www.twitch.tv/twitchplayspokemon"
+	style="width:90%">
+	<button id="search_button">Search!</button>
+</form>
+
+<div id="msg" style="font-weight: bold"></div>
+
+<div id="results" style="display:none;">
+	Before you download, please <a href="https://archive.org/donate/">donate to the Internet Archive</a>. 
+
+	<p>The media URLs are:</p>
+	<div id="url_container"></div>
+	
+	<p>You can access it on the Wayback Machine. ie: <a id="wayback_url"></a>.
+</div>
+
+<div id="resultsChannel" style="display:none;">
+	<p>The video URLs are:</p>
+	<div id="url_container"></div>
+	
+	<p>Search the above URLs again to see the media URLs.</p>
+</div>
+
+<p>If you are using Internet Explorer, please use version 9 or higher.</p>
+<p>Problems? Please <a href="https://github.com/ArchiveTeam/twitchtv-index/issues">file an issue</a></p>
+<p><a href="http://archiveteam.org/index.php?title=Twitch.tv">About the project.</a></p>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+
+function search() {
+	var urlRegex = /twitch\.tv\/([^\/]+)\/\w\/([\d]+)/g;
+	var channelUrlRegex = /twitch\.tv\/([^\/]+)/g
+	$("#search_button,#search_box").prop('disabled', true);
+	$("#results").hide();
+	$("#resultsChannel").hide();
+	
+	var url = $('#search_box').val();
+	var result = urlRegex.exec(url);
+	var channelResult = channelUrlRegex.exec(url);
+	
+	if (!result && !channelResult) {
+		$("#msg").text("Sorry, this doesn't look like an expected twitch.tv URL. Please retype it.");
+		$("#search_button,#search_box").prop('disabled', false);
+		return;
+	}
+	
+	if (result) {
+		searchByVideo(result);
+	} else {
+		searchByChannel(channelResult[1]);
+	}
+}
+
+function searchByVideo(result) {
+	var username = result[1];
+	var videoId = result[2];
+	
+	var filename = 'jsdata/video/' + videoId.slice(0, 1) + '/data-' + videoId.slice(0, 2) + '.json';
+	
+	$("#msg").text("Searching...");
+	
+	$.getJSON(filename)
+	.done(function(data) {
+		var mediaUrls = data[videoId];
+		
+		if (mediaUrls === undefined) {
+			$("#msg").text("Sorry, this video doesn't seem to be archived as part of this project.");
+			return;
+		}
+		
+		$("#msg").text("");
+		
+		$("#results").show();
+		var texts = [];
+		
+		for (var url in mediaUrls) {
+			texts.push('<a href="' + url + '">' + url + '</a><br>');
+		}
+		
+		$("#url_container").text(texts.join('\n'));
+		$("#wayback_url").attr('href', 'https://web.archive.org/*/' + mediaUrls[0])
+			text('https://web.archive.org/*/' + mediaUrls[0]);
+	})
+	.fail(function(jqXHR) {
+		if (jqXHR.status == 404) {
+			$("#msg").text("Sorry, this video doesn't seem to be archived as part of this project.");
+		} else {
+			$("#msg").text("Oops! Something went wrong during the search. Please try again.");
+		}
+		return;
+	})
+	.always(function() {
+		$("#search_button,#search_box").prop('disabled', false);
+	});
+}
+
+function searchByChannel(name) {
+	var filename = 'jsdata/channel/' + name.slice(0, 1) + '/data-' + name.slice(0, 2) + '.json';
+	
+	$("#msg").text("Searching...");
+	
+	$.getJSON(filename)
+	.done(function(data) {
+		var videoIds = data[name];
+		
+		if (videoIds === undefined) {
+			$("#msg").text("Sorry, no videos were saved for this channel.");
+			return;
+		}
+		
+		$("#msg").text("");
+		
+		$("#resultsChannel").show();
+		var texts = [];
+		
+		for (var ids in videoIds) {
+			var videoSuffix;
+			
+			if (ids.slice(0, 1) == 'a') {
+				videoSuffix = 'b/' + ids.slice(1);
+			} else {
+				videoSuffix = 'c/' + ids.slice(1);
+			}
+			
+			var url = 'http://twitch.tv/' + name + '/' + videoSuffix;
+			texts.push('<a href="' + url + '">' + url + '</a><br>');
+		}
+		
+		$("#url_container").text(texts.join('\n'));
+	})
+	.fail(function(jqXHR) {
+		if (jqXHR.status == 404) {
+			$("#msg").text("Sorry, this video doesn't seem to be archived as part of this project.");
+		} else {
+			$("#msg").text("Oops! Something went wrong during the search. Please try again.");
+		}
+		return;
+	})
+	.always(function() {
+		$("#search_button,#search_box").prop('disabled', false);
+	});
+}
+
+$('#search_button').click(search);
+</script>
+</body>
+</html>
