@@ -89,7 +89,11 @@ function searchByVideo(result) {
 		$("#msg").text("");
 		
 		$("#results").show();
+
 		var texts = [];
+		var apiUrl = 'https://api.twitch.tv/kraken/videos/'+ videoId;
+		texts.push('<a href="' + apiUrl + '">Metadata</a>\n');
+		texts.push('<a href="http://web.archive.org/web/*/' + apiUrl + '"><i>View Wayback</i></a><br>');
 		
 		for (var i = 0; i < mediaUrls.length; i++) {
 			var url = mediaUrls[i];
