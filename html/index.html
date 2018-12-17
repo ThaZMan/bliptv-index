@@ -5,11 +5,11 @@
 <body>
 <noscript>This search feature requires JavaScript. Sorry!</noscript>
 
-<p>Welcome to the Archive Team Twitch.tv video file archive search</p>
+<p>Welcome to the Archive Team Blip.tv video file archive search</p>
 <form onsubmit="return false;">
 <p>
 
-Enter the URL of the video page or a channel please: </p>
+Enter the Blip TV channel name please: </p>
 <input id="search_box" type="url"
 	value="http://www.twitch.tv/twitchplayspokemon"
 	style="width:90%">
@@ -33,91 +33,228 @@ Enter the URL of the video page or a channel please: </p>
 </div>
 
 <p>If you are using Internet Explorer, please use version 9 or higher.</p>
-<p>Problems? Please <a href="https://github.com/ArchiveTeam/twitchtv-index/issues">file an issue</a></p>
-<p><a href="http://archiveteam.org/index.php?title=Twitch.tv">About the project.</a></p>
+<p>Problems? Please <a href="hhttps://github.com/ZackRadnedge/bliptv-index/issues">file an issue</a></p>
+<p><a href="http://archiveteam.org/index.php?title=Blip.tv">About the project.</a></p>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
 
-function search() {
-	var urlRegex = /twitch\.tv\/([^\/]+)\/(\w)\/([\d]+)/g;
-	var channelUrlRegex = /twitch\.tv\/([^\/]+)/g
+function search()
+{
+	//var urlRegex = /twitch\.tv\/([^\/]+)\/(\w)\/([\d]+)/g;
+	//var channelUrlRegex = /twitch\.tv\/([^\/]+)/g
 	$("#search_button,#search_box").prop('disabled', true);
 	$("#results").hide();
 	$("#resultsChannel").hide();
 	
-	var url = $('#search_box').val();
-	var result = urlRegex.exec(url);
-	var channelResult = channelUrlRegex.exec(url);
-	
-	if (!result && !channelResult) {
+	var name = $('#search_box').val();
+	//var result = urlRegex.exec(url);
+	//var channelResult = channelUrlRegex.exec(url);
+	/*
+	if ( !result && !channelResult )
+	{
 		$("#msg").text("Sorry, this doesn't look like an expected twitch.tv URL. Please retype it.");
 		$("#search_button,#search_box").prop('disabled', false);
 		return;
 	}
-
-	if (result) {
-		searchByVideo(result);
-	} else {
-		searchByChannel(channelResult[1].toLowerCase());
-	}
+*/
+	searchByChannel( name );
+	
 }
 
-function searchByVideo(result) {
-	var username = result[1];
-	var videoType = result[2];
-	
-	if (videoType == 'b') {
-		videoType = 'a';
+function searchByChannel( name )
+{
+	var l = name.slice(0, 1);
+	var filename;
+
+	if( l == "a" )
+	{
+
+		filename = "";
+
 	}
-	
-	var videoId = videoType + result[3];
-	
-	var filename = 'jsdata/video/' + videoId.slice(0, 2) + '/data-' + videoId.slice(0, 3) + '.json';
-	
-	$("#msg").text("Searching...");
-	
-	$.getJSON(filename)
-	.done(function(data) {
-		var mediaUrls = data[videoId];
-		
-		if (mediaUrls === undefined) {
-			$("#msg").text("Sorry, this video doesn't seem to be archived as part of this project.");
-			return;
-		}
-		
-		$("#msg").text("");
-		
-		$("#results").show();
 
-		var texts = [];
-		var apiUrl = 'https://api.twitch.tv/kraken/videos/'+ videoId;
-		texts.push('<a href="' + apiUrl + '">Metadata</a>\n');
-		texts.push('<a href="http://web.archive.org/web/*/' + apiUrl + '"><i>View Wayback</i></a><br>');
-		
-		for (var i = 0; i < mediaUrls.length; i++) {
-			var url = mediaUrls[i];
-			texts.push('<a href="' + url + '">' + url + '</a>');
-			texts.push('<a href="http://web.archive.org/web/*/' + url + '"><i>View Wayback</i></a><br>');
-		}
-		
-		$("#url_container").html(texts.join('\n'));
-	})
-	.fail(function(jqXHR) {
-		if (jqXHR.status == 404) {
-			$("#msg").text("Sorry, this video doesn't seem to be archived as part of this project.");
-		} else {
-			$("#msg").text("Oops! Something went wrong during the search. Please try again.");
-		}
-		return;
-	})
-	.always(function() {
-		$("#search_button,#search_box").prop('disabled', false);
-	});
-}
+	else if( l == "b" )
+	{
 
-function searchByChannel(name) {
-	var filename = 'jsdata/channel/' + name.slice(0, 1) + '/data-' + name.slice(0, 2) + '.json';
+		filename = "";
+
+	}
+
+	else if( l == "c" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "d" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "e" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "f" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "g" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "h" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "i" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "j" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "k" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "l" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "m" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "n" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "o" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "p" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "q" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "r" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "s" )
+	{
+
+		filename = "https://raw.githubusercontent.com/ZackRadnedge/zackradnedge.github.io/master/jsdata/channel/A%20test.json";
+
+	}
+
+	else if( l == "t" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "u" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "v" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "w" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "x" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "y" )
+	{
+
+		filename = "";
+
+	}
+
+	else if( l == "z" )
+	{
+
+		filename = "";
+
+	}
+
+	else
+	{
+
+		filename = "";
+
+	}
 	
 	$("#msg").text("Searching...");
 	
@@ -135,17 +272,11 @@ function searchByChannel(name) {
 		$("#resultsChannel").show();
 		var texts = [];
 		
-		for (var i = 0; i < videoIds.length; i++) {
-			var videoSuffix;
+		for ( var i = 0; i < videoIds.length; i++ )
+		{
 			var id = videoIds[i];
-			
-			if (id.slice(0, 1) == 'a') {
-				videoSuffix = 'b/' + id.slice(1);
-			} else {
-				videoSuffix = 'c/' + id.slice(1);
-			}
-			
-			var url = 'http://twitch.tv/' + name + '/' + videoSuffix;
+			var url = 'https://web.archive.org/web/*/http://blip.tv/file/get/' + name + '-' + id;
+
 			texts.push('<a href="' + url + '">' + url + '</a>');
 			texts.push('<button onclick="$(\'#search_box\').val(\'' + url + '\');$(\'#search_button\').click()">Search FLV</button><br>');
 		}
