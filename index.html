@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Blip.tv Archive Search</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js" defer></script>
+	<script src="./app.js" defer></script>
+	<style>
+		body {
+			font: 12pt/1.4 sans-serif;
+			margin: 1rem;
+		}
+		input {
+			font: inherit;
+		}
+	</style>
+</head>
+<body>
+	<h1>Blip.tv Archive Search</h1>
+	<form onsubmit="return false;">
+		<input type="text" id="search_box" value="historybeat" size="30">
+		<input type="submit" id="search_button" value="Search">
+	</form>
+	<div id="msg"></div>
+	<div id="resultsChannel">
+		<ul id="url_container_channels"></ul>
+	</div>
+	<p>If you are using Internet Explorer, please use version 9 or higher.</p>
+	<p>Problems? Please <a href="https://github.com/ZackRadnedge/bliptv-index/issues">file an issue</a></p>
+	<p><a href="http://archiveteam.org/index.php?title=Blip.tv">About the project.</a></p>
+</body>
+</html>
